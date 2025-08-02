@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Shop</title>
+  <style>
+    /* ----------- ESTILOS GENERALES ----------- */
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      margin:0; 
+      background:#f4f6f9; 
+      color:#333;
+    }
+    header { 
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color:#fff; 
+      padding:15px; 
+      display:flex; 
+      flex-wrap:wrap;
+      justify-content:space-between; 
+      align-items:center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    header h1 { margin:0; font-size:1.8em; }
+    nav { display:flex; flex-wrap:wrap; gap:10px; }
+    nav button { 
+      padding:10px 18px; 
+      border:none; 
+      border-radius:25px; 
+      background:#3498db; 
+      color:#fff; 
+      cursor:pointer; 
+      transition:0.3s;
+      font-weight:bold;
+    }
+    nav button:hover { background:#2980b9; transform:scale(1.05); }
+
+    .container { padding:20px; max-width:1200px; margin:auto; }
+    section { margin-bottom:30px; }
+
+    /* ----------- IMAGEN PRINCIPAL ----------- */
+    .hero-banner {
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=300&fit=crop');
+      background-size: cover;
+      background-position: center;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      margin-bottom: 30px;
+      border-radius: 15px;
+    }
+    .hero-content h2 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    }
+    .hero-content p {
+      font-size: 1.2em;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+    }
+
+    /* ----------- PRODUCTOS ----------- */
+    .products { 
+      display:grid; 
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); 
+      gap:20px; 
+    }
+    .product { 
+      background:#fff; 
+      border-radius:15px; 
+      padding:15px; 
+      box-shadow:0 4px 10px rgba(0,0,0,0.1); 
+      text-align:center; 
+      transition:0.3s;
+    }
+    .product:hover { transform:translateY(-5px); }
+    .product img { width:100%; height:180px; object-fit:cover; border-radius:10px; }
+    .product h4 { margin:10px 0; }
+    .product button { 
+      background:#27ae60; 
+      color:#fff; 
+      border:none; 
+      padding:10px 15px; 
+      margin-top:10px; 
+      cursor:pointer; 
+      border-radius:8px; 
+      transition:0.3s;
+    }
+    .product button:hover { background:#1e8449; transform:scale(1.05); }
+
+    /* ----------- TABLAS ----------- */
+    table { width:100%; border-collapse: collapse; background:#fff; border-radius:10px; overflow:hidden; }
+    th, td { padding:12px; border-bottom:1px solid #eee; text-align:center; font-size:0.95em; }
+    th { background:#3498db; color:#fff; }
+    .qtyBtn { 
+      padding:5px 10px; 
+      background:#3498db; 
+      color:white; 
+      border:none; 
+      border-radius:5px; 
+      cursor:pointer; 
+      font-size:1em;
+      margin:0 5px;
+    }
+    .qtyBtn:hover { background:#2980b9; }
+
+    /* ----------- FORMULARIOS MEJORADOS ----------- */
+    .auth-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      max-width: 800px;
+      margin: auto;
+    }
+    
+    .auth-form { 
+      background:#fff; 
+      padding:25px; 
+      border-radius:15px; 
+      box-shadow:0 4px 10px rgba(0,0,0,0.1); 
+    }
+    
+    .auth-form h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    
+    .form-group input { 
+      width:100%; 
+      padding:12px; 
+      border:2px solid #e0e0e0; 
+      border-radius:8px; 
+      font-size:1em; 
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+    
+    .form-group input.error {
+      border-color: #e74c3c;
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.9em;
+      margin-top: 5px;
+      min-height: 20px;
+    }
+    
+    .success-message {
+      color: #27ae60;
+      font-size: 0.9em;
+      margin-top: 10px;
+      text-align: center;
+    }
+    
+    .auth-form button { 
+      background:#27ae60; 
+      color:#fff; 
+      border:none; 
+      padding:12px; 
+      width:100%; 
+      cursor:pointer; 
+      border-radius:8px; 
+      font-size:1em; 
+      font-weight:bold; 
+      transition:0.3s;
+    }
+    .auth-form button:hover { background:#1e8449; }
+
+    /* ----------- USER PROFILE ----------- */
+    .user-profile {
+      background: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
+      text-align: center;
+    }
+    
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3498db, #2c3e50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      color: white;
+      font-size: 2em;
+      font-weight: bold;
+    }
+
+    /* ----------- FORMULARIOS CHECKOUT ----------- */
+    form { 
+      background:#fff; 
+      padding:20px; 
+      border-radius:15px; 
+      box-shadow:0 4px 10px rgba(0,0,0,0.1); 
+      max-width:450px; 
+      margin:auto; 
+    }
+    form input, form select { 
+      width:100%; 
+      padding:12px; 
+      margin-bottom:15px; 
+      border:1px solid #ccc; 
+      border-radius:8px; 
+      font-size:1em; 
+      box-sizing: border-box;
+    }
+    form button { 
+      background:#27ae60; 
+      color:#fff; 
+      border:none; 
+      padding:12px; 
+      width:100%; 
+      cursor:pointer; 
+      border-radius:8px; 
+      font-size:1em; 
+      font-weight:bold; 
+      transition:0.3s;
+    }
+    form button:hover { background:#1e8449; }
+
+    /* ----------- HISTORIAL ----------- */
+    .history-card {
+      background:#fff; 
+      padding:15px; 
+      margin:15px 0; 
+      border-radius:10px; 
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+    .history-card h4 { margin-top:0; }
+
+    /* ----------- HIDDEN CLASS ----------- */
+    .hidden { display: none !important; }
+
+    /* ----------- RESPONSIVE ----------- */
+    @media (max-width:768px) {
+      header { flex-direction:column; text-align:center; }
+      nav { justify-content:center; }
+      .hero-content h2 { font-size: 2em; }
+      .hero-content p { font-size: 1em; }
+      .auth-container { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Nova Shop</h1>
+    <nav>
+      <button onclick="showSection('products')">Productos</button>
+      <button onclick="showSection('cart')">Carrito (<span id="cartCount">0</span>)</button>
+      <button onclick="showSection('history')">Historial</button>
+      <button onclick="showSection('auth')">Cuenta</button>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- Productos -->
+    <section id="products">
+      <div class="hero-banner">
+        <div class="hero-content">
+          <h2>🛍️ Bienvenido a Nova Shop</h2>
+          <p>Descubre la mejor selección de productos con estilo único</p>
+        </div>
+      </div>
+      <h2>Nuestros Productos</h2>
+      <div class="products" id="productList"></div>
+    </section>
+
+    <!-- Carrito -->
+    <section id="cart" style="display:none;">
+      <h2>🛒 Carrito</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody id="cartItems"></tbody>
+      </table>
+      <h3>Total: $<span id="cartTotal">0</span></h3>
+      <button onclick="checkout()" id="checkoutBtn">Finalizar Compra</button>
+    </section>
+
+    <!-- Pago -->
+    <section id="checkout" style="display:none;">
+      <h2>💳 Finalizar Compra</h2>
+      <form id="paymentForm">
+        <label for="paymentMethod">Método de Pago</label>
+        <select id="paymentMethod" required onchange="togglePaymentFields()">
+          <option value="">Seleccione...</option>
+          <option value="card">Tarjeta de Crédito/Débito</option>
+          <option value="paypal">PayPal</option>
+        </select>
+
+        <div id="cardFields" class="hidden">
+          <input type="text" placeholder="Número de tarjeta" maxlength="16">
+          <input type="text" placeholder="MM/AA">
+          <input type="text" placeholder="CVV" maxlength="3">
+        </div>
+
+        <div id="paypalFields" class="hidden">
+          <input type="email" placeholder="Correo PayPal">
+          <input type="password" placeholder="Contraseña PayPal">
+        </div>
+
+        <button type="submit">Confirmar Pago</button>
+      </form>
+    </section>
+
+    <!-- Historial -->
+    <section id="history" style="display:none;">
+      <h2>📜 Historial de Compras</h2>
+      <div id="historyList"></div>
+    </section>
+
+    <!-- Login/Registro Mejorado -->
+    <section id="auth" style="display:none;">
+      <h2>🔐 Acceso a tu cuenta</h2>
+      
+      <div id="authForms" class="auth-container">
+        <!-- Formulario de Registro -->
+        <div class="auth-form">
+          <h3>✨ Crear Cuenta Nueva</h3>
+          <div class="form-group">
+            <label for="registerName">Nombre Completo</label>
+            <input type="text" id="registerName" placeholder="Ingresa tu nombre completo">
+            <div class="error-message" id="nameError"></div>
+          </div>
+          
+          <div class="form-group">
+            <label for="registerEmail">Correo Electrónico</label>
+            <input type="email" id="registerEmail" placeholder="ejemplo@correo.com">
+            <div class="error-message" id="emailError"></div>
+          </div>
+          
+          <div class="form-group">
+            <label for="registerUser">Nombre de Usuario</label>
+            <input type="text" id="registerUser" placeholder="Tu nombre de usuario">
+            <div class="error-message" id="userError"></div>
+          </div>
+          
+          <div class="form-group">
+            <label for="registerPass">Contraseña</label>
+            <input type="password" id="registerPass" placeholder="Mínimo 6 caracteres">
+            <div class="error-message" id="passError"></div>
+          </div>
+          
+          <div class="form-group">
+            <label for="registerPassConfirm">Confirmar Contraseña</label>
+            <input type="password" id="registerPassConfirm" placeholder="Repite tu contraseña">
+            <div class="error-message" id="passConfirmError"></div>
+          </div>
+          
+          <button onclick="register()">Crear Cuenta</button>
+          <div class="success-message" id="registerSuccess"></div>
+        </div>
+
+        <!-- Formulario de Login -->
+        <div class="auth-form">
+          <h3>👋 Iniciar Sesión</h3>
+          <div class="form-group">
+            <label for="loginUser">Usuario o Email</label>
+            <input type="text" id="loginUser" placeholder="Tu usuario o email">
+            <div class="error-message" id="loginUserError"></div>
+          </div>
+          
+          <div class="form-group">
+            <label for="loginPass">Contraseña</label>
+            <input type="password" id="loginPass" placeholder="Tu contraseña">
+            <div class="error-message" id="loginPassError"></div>
+          </div>
+          
+          <button onclick="login()">Iniciar Sesión</button>
+          <div class="error-message" id="loginError"></div>
+        </div>
+      </div>
+      
+      <!-- Perfil de Usuario -->
+      <div id="userProfile" class="user-profile hidden">
+        <div class="user-avatar" id="userAvatar"></div>
+        <h3>¡Bienvenido de vuelta!</h3>
+        <p><strong id="userDisplayName"></strong></p>
+        <p id="userEmail"></p>
+        <p><small>Miembro desde: <span id="memberSince"></span></small></p>
+        <button onclick="logout()">Cerrar Sesión</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Base de datos expandida de productos
+    const products = [
+      // Ropa y Moda
+      {id:1, name:"Camisa Nova", price:25, img:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=250&h=180&fit=crop"},
+      {id:2, name:"Pantalón Moderno", price:40, img:"https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=250&h=180&fit=crop"},
+      {id:3, name:"Zapatos Trend", price:60, img:"https://images.unsplash.com/photo-1549298916-b41d501d3772?w=250&h=180&fit=crop"},
+      {id:4, name:"Mochila Casual", price:30, img:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=250&h=180&fit=crop"},
+      {id:5, name:"Chaqueta Deportiva", price:55, img:"https://images.unsplash.com/photo-1551028719-00167b16eac5?w=250&h=180&fit=crop"},
+      {id:6, name:"Vestido Elegante", price:45, img:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=250&h=180&fit=crop"},
+      {id:7, name:"Gorra Urbana", price:15, img:"https://images.unsplash.com/photo-1575428652377-a4ad09cfa0ca?w=250&h=180&fit=crop"},
+      {id:8, name:"Reloj Clásico", price:80, img:"https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=250&h=180&fit=crop"},
+      {id:9, name:"Jeans Premium", price:65, img:"https://images.unsplash.com/photo-1542272604-787c3835535d?w=250&h=180&fit=crop"},
+      {id:10, name:"Blusa Femenina", price:35, img:"https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=250&h=180&fit=crop"},
+      {id:11, name:"Suéter Invierno", price:50, img:"https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=250&h=180&fit=crop"},
+      {id:12, name:"Falda Casual", price:28, img:"https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=250&h=180&fit=crop"},
+      
+      // Tecnología
+      {id:13, name:"Auriculares Bluetooth", price:35, img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=250&h=180&fit=crop"},
+      {id:14, name:"Smartphone Pro", price:299, img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=250&h=180&fit=crop"},
+      {id:15, name:"Tablet Ultra", price:199, img:"https://images.unsplash.com/photo-1561154464-82e9adf32764?w=250&h=180&fit=crop"},
+      {id:16, name:"Cargador Portátil", price:20, img:"https://images.unsplash.com/photo-1609592806725-f62e08e6e8b9?w=250&h=180&fit=crop"},
+      {id:17, name:"Laptop Gaming", price:450, img:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=250&h=180&fit=crop"},
+      {id:18, name:"Smartwatch", price:85, img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=250&h=180&fit=crop"},
+      {id:19, name:"Cámara Instantánea", price:75, img:"https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=250&h=180&fit=crop"},
+      {id:20, name:"Altavoz Bluetooth", price:42, img:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=250&h=180&fit=crop"},
+      
+      // Casa y Decoración
+      {id:21, name:"Lámpara LED", price:25, img:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=250&h=180&fit=crop"},
+      {id:22, name:"Cojín Decorativo", price:12, img:"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=250&h=180&fit=crop"},
+      {id:23, name:"Vela Aromática", price:8, img:"https://images.unsplash.com/photo-1602874801007-62c9fb8c9530?w=250&h=180&fit=crop"},
+      {id:24, name:"Espejo Vintage", price:48, img:"https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=250&h=180&fit=crop"},
+      {id:25, name:"Maceta Moderna", price:18, img:"https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=250&h=180&fit=crop"},
+      {id:26, name:"Alfombra Elegante", price:120, img:"https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=250&h=180&fit=crop"},
+      {id:27, name:"Cuadro Moderno", price:35, img:"https://images.unsplash.com/photo-1582561831622-3f2d9ab60ead?w=250&h=180&fit=crop"},
+      
+      // Deportes y Fitness
+      {id:28, name:"Botella Térmica", price:18, img:"https://images.unsplash.com/photo-1602722053020-af31042989d5?w=250&h=180&fit=crop"},
+      {id:29, name:"Esterilla Yoga", price:22, img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=250&h=180&fit=crop"},
+      {id:30, name:"Bandas Elásticas", price:15, img:"https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=250&h=180&fit=crop"},
+      {id:31, name:"Gafas de Sol", price:28, img:"https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=250&h=180&fit=crop"},
+      {id:32, name:"Mancuernas Set", price:95, img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=250&h=180&fit=crop"},
+      {id:33, name:"Pelota Ejercicio", price:25, img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=250&h=180&fit=crop"},
+      {id:34, name:"Cuerda Saltar", price:12, img:"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=250&h=180&fit=crop"},
+      
+      // Libros y Educación
+      {id:35, name:"Libro Desarrollo Personal", price:16, img:"https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=180&fit=crop"},
+      {id:36, name:"Agenda Planificadora", price:12, img:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=250&h=180&fit=crop"},
+      {id:37, name:"Set Bolígrafos", price:24, img:"https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=250&h=180&fit=crop"},
+      {id:38, name:"Cuaderno Premium", price:18, img:"https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=250&h=180&fit=crop"},
+      
+      // Belleza y Cuidado
+      {id:39, name:"Crema Hidratante", price:22, img:"https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=250&h=180&fit=crop"},
+      {id:40, name:"Perfume Elegante", price:55, img:"https://images.unsplash.com/photo-1541643600914-78b084683601?w=250&h=180&fit=crop"},
+      {id:41, name:"Kit Maquillaje", price:78, img:"https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=250&h=180&fit=crop"},
+      {id:42, name:"Champú Premium", price:28, img:"https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=250&h=180&fit=crop"},
+      
+      // Cocina
+      {id:43, name:"Cafetera Express", price:65, img:"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=250&h=180&fit=crop"},
+      {id:44, name:"Set Cuchillos", price:95, img:"https://images.unsplash.com/photo-1590736969955-71cc94901144?w=250&h=180&fit=crop"},
+      {id:45, name:"Tabla Cortar Bambú", price:28, img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=250&h=180&fit=crop"},
+      {id:46, name:"Batidora Potente", price:120, img:"https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=250&h=180&fit=crop"},
+      {id:47, name:"Set Especias", price:38, img:"https://images.unsplash.com/photo-1596590379819-d4e85ae92022?w=250&h=180&fit=crop"},
+      {id:48, name:"Sartén Antiadherente", price:45, img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=250&h=180&fit=crop"}
+    ];
+
+    let users = {};
+    let currentUser = null;
+
+    // Función para limpiar mensajes de error
+    function clearErrors() {
+      document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+      document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+    }
+
+    // Función para mostrar error
+    function showError(elementId, message) {
+      const errorEl = document.getElementById(elementId);
+      const inputEl = document.getElementById(elementId.replace('Error', ''));
+      if (errorEl) errorEl.textContent = message;
+      if (inputEl) inputEl.classList.add('error');
+    }
+
+    // Función para validar email
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    // Renderizar productos
+    const productList = document.getElementById("productList");
+    products.forEach(p=>{
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <img src="${p.img}" alt="${p.name}">
+        <h4>${p.name}</h4>
+        <p>$${p.price}</p>
+        <button onclick="addToCart(${p.id})">Agregar al Carrito</button>
+      `;
+      productList.appendChild(div);
+    });
+
+    // Funciones del carrito (sin cambios)
+    function getCart(){
+      return currentUser && users[currentUser]?.cart ? users[currentUser].cart : [];
+    }
+    function saveCart(cart){
+      if(currentUser){
+        users[currentUser].cart = cart;
+      }
+    }
+
+    function showSection(id){
+      document.querySelectorAll("section").forEach(s=>s.style.display="none");
+      document.getElementById(id).style.display="block";
+      if(id==="cart") renderCart();
+      if(id==="auth") updateAuthView();
+      if(id==="history") renderHistory();
+    }
+
+    function addToCart(id){
+      if(!currentUser){ alert("Debes iniciar sesión para agregar al carrito."); return; }
+      let cart = getCart();
+      const product = products.find(p=>p.id===id);
+      const found = cart.find(item=>item.id===id);
+      if(found){ found.qty++; } else { cart.push({...product, qty:1}); }
+      saveCart(cart);
+      updateCartCount();
+    }
+
+    function renderCart(){
+      let cart = getCart();
+      const cartItems = document.getElementById("cartItems");
+      cartItems.innerHTML = "";
+      let total = 0;
+      cart.forEach(item=>{
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        cartItems.innerHTML += `
+          <tr>
+            <td>${item.name}</td>
+            <td>$${item.price}</td>
+            <td>
+              <button class="qtyBtn" onclick="changeQty(${item.id}, -1)">-</button>
+              ${item.qty}
+              <button class="qtyBtn" onclick="changeQty(${item.id}, 1)">+</button>
+            </td>
+            <td>$${subtotal}</td>
+          </tr>`;
+      });
+      document.getElementById("cartTotal").textContent = total;
+    }
+
+    function changeQty(id, delta){
+      let cart = getCart();
+      const item = cart.find(p=>p.id===id);
+      if(item){
+        item.qty += delta;
+        if(item.qty<=0) cart = cart.filter(p=>p.id!==id);
+        saveCart(cart);
+        renderCart();
+        updateCartCount();
+      }
+    }
+
+    function updateCartCount(){
+      let cart = getCart();
+      let count = cart.reduce((sum,p)=>sum+p.qty,0);
+      document.getElementById("cartCount").textContent = count;
+    }
+    updateCartCount();
+
+    function checkout(){
+      let cart = getCart();
+      if(cart.length===0){ alert("Tu carrito está vacío"); return; }
+      showSection('checkout');
+    }
+
+    function togglePaymentFields(){
+      const method = document.getElementById("paymentMethod").value;
+      document.getElementById("cardFields").classList.add("hidden");
+      document.getElementById("paypalFields").classList.add("hidden");
+      if(method==="card") document.getElementById("cardFields").classList.remove("hidden");
+      if(method==="paypal") document.getElementById("paypalFields").classList.remove("hidden");
+    }
+
+    document.getElementById("paymentForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      const cart = getCart();
+      const total = cart.reduce((sum,p)=>sum+(p.price*p.qty),0);
+      const date = new Date().toLocaleString();
+      if(currentUser){
+        if(!users[currentUser].history) users[currentUser].history = [];
+        users[currentUser].history.push({date, cart, total});
+        saveCart([]); 
+      }
+      alert("✅ Pago realizado con éxito. ¡Gracias por tu compra!");
+      updateCartCount();
+      showSection('history');
+    });
+
+    function renderHistory(){
+      const historyList = document.getElementById("historyList");
+      historyList.innerHTML = "";
+      if(!currentUser || !users[currentUser]?.history || users[currentUser].history.length===0){
+        historyList.innerHTML = "<p>No tienes compras realizadas aún.</p>";
+        return;
+      }
+      users[currentUser].history.forEach(order=>{
+        historyList.innerHTML += `
+          <div class="history-card">
+            <h4>Compra del ${order.date}</h4>
+            <ul>
+              ${order.cart.map(item=>`<li>${item.qty} x ${item.name} - ${item.price*item.qty}</li>`).join("")}
+            </ul>
+            <strong>Total: ${order.total}</strong>
+          </div>`;
+      });
+    }
+
+    // FUNCIONES DE AUTENTICACIÓN MEJORADAS
+    function register(){
+      clearErrors();
+      
+      const name = document.getElementById("registerName").value.trim();
+      const email = document.getElementById("registerEmail").value.trim();
+      const user = document.getElementById("registerUser").value.trim();
+      const pass = document.getElementById("registerPass").value;
+      const passConfirm = document.getElementById("registerPassConfirm").value;
+      
+      let hasErrors = false;
+      
+      // Validar nombre
+      if(!name || name.length < 2){
+        showError("nameError", "El nombre debe tener al menos 2 caracteres");
+        hasErrors = true;
+      }
+      
+      // Validar email
+      if(!email){
+        showError("emailError", "El correo electrónico es requerido");
+        hasErrors = true;
+      } else if(!isValidEmail(email)){
+        showError("emailError", "Por favor ingresa un correo válido");
+        hasErrors = true;
+      }
+      
+      // Validar usuario
+      if(!user || user.length < 3){
+        showError("userError", "El usuario debe tener al menos 3 caracteres");
+        hasErrors = true;
+      } else if(users[user]){
+        showError("userError", "Este usuario ya existe");
+        hasErrors = true;
+      }
+      
+      // Validar contraseña
+      if(!pass || pass.length < 6){
+        showError("passError", "La contraseña debe tener al menos 6 caracteres");
+        hasErrors = true;
+      }
+      
+      // Validar confirmación de contraseña
+      if(pass !== passConfirm){
+        showError("passConfirmError", "Las contraseñas no coinciden");
+        hasErrors = true;
+      }
+      
+      // Verificar si el email ya existe
+      const emailExists = Object.values(users).some(u => u.email === email);
+      if(emailExists){
+        showError("emailError", "Este correo ya está registrado");
+        hasErrors = true;
+      }
+      
+      if(hasErrors) return;
+      
+      // Crear usuario
+      users[user] = {
+        name: name,
+        email: email,
+        password: pass,
+        cart: [],
+        history: [],
+        registeredDate: new Date().toLocaleDateString()
+      };
+      
+      // Mostrar mensaje de éxito
+      document.getElementById("registerSuccess").textContent = "¡Cuenta creada exitosamente! Ahora puedes iniciar sesión.";
+      
+      // Limpiar formulario
+      document.getElementById("registerName").value = "";
+      document.getElementById("registerEmail").value = "";
+      document.getElementById("registerUser").value = "";
+      document.getElementById("registerPass").value = "";
+      document.getElementById("registerPassConfirm").value = "";
+      
+      setTimeout(() => {
+        document.getElementById("registerSuccess").textContent = "";
+      }, 3000);
+    }
+
+    function login(){
+      clearErrors();
+      
+      const userOrEmail = document.getElementById("loginUser").value.trim();
+      const pass = document.getElementById("loginPass").value;
+      
+      if(!userOrEmail){
+        showError("loginUserError", "Ingresa tu usuario o email");
+        return;
+      }
+      
+      if(!pass){
+        showError("loginPassError", "Ingresa tu contraseña");
+        return;
+      }
+      
+      // Buscar usuario por nombre de usuario o email
+      let foundUser = null;
+      let foundUsername = null;
+      
+      for(const [username, userData] of Object.entries(users)){
+        if(username === userOrEmail || userData.email === userOrEmail){
+          foundUser = userData;
+          foundUsername = username;
+          break;
+        }
+      }
+      
+      if(foundUser && foundUser.password === pass){
+        currentUser = foundUsername;
+        updateAuthView();
+        updateCartCount();
+        
+        // Limpiar formulario
+        document.getElementById("loginUser").value = "";
+        document.getElementById("loginPass").value = "";
+        
+        // Mostrar mensaje de bienvenida
+        setTimeout(() => {
+          alert(`¡Bienvenido ${foundUser.name}! 🎉`);
+        }, 100);
+        
+      } else {
+        showError("loginError", "Usuario/email o contraseña incorrectos");
+      }
+    }
+
+    function logout(){
+      currentUser = null;
+      updateAuthView();
+      updateCartCount();
+      clearErrors();
+      alert("Has cerrado sesión correctamente");
+    }
+
+    function updateAuthView(){
+      if(currentUser && users[currentUser]){
+        const userData = users[currentUser];
+        
+        // Ocultar formularios y mostrar perfil
+        document.getElementById("authForms").classList.add("hidden");
+        document.getElementById("userProfile").classList.remove("hidden");
+        
+        // Actualizar información del perfil
+        document.getElementById("userDisplayName").textContent = userData.name;
+        document.getElementById("userEmail").textContent = userData.email;
+        document.getElementById("memberSince").textContent = userData.registeredDate;
+        
+        // Mostrar inicial del nombre en el avatar
+        const initial = userData.name.charAt(0).toUpperCase();
+        document.getElementById("userAvatar").textContent = initial;
+        
+      } else {
+        // Mostrar formularios y ocultar perfil
+        document.getElementById("authForms").classList.remove("hidden");
+        document.getElementById("userProfile").classList.add("hidden");
+        clearErrors();
+      }
+    }
